@@ -1,1 +1,667 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching Methods Guide</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --color-background-primary: #ffffff;
+      --color-background-secondary: #f5f4f1;
+      --color-background-tertiary: #ebe9e3;
+      --color-text-primary: #3d3d3a;
+      --color-text-secondary: #73726c;
+      --color-text-tertiary: #9c9a92;
+      --color-border-tertiary: rgba(115, 114, 108, 0.15);
+      --color-border-secondary: rgba(115, 114, 108, 0.3);
+      --color-border-primary: rgba(115, 114, 108, 0.4);
+      --color-background-info: #e6f1fb;
+      --color-text-info: #185fa5;
+      --border-radius-md: 8px;
+      --border-radius-lg: 12px;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-background-primary: #1a1a1a;
+        --color-background-secondary: #2d2d2a;
+        --color-background-tertiary: #3d3d3a;
+        --color-text-primary: #e6e6e3;
+        --color-text-secondary: #a3a19c;
+        --color-text-tertiary: #73726c;
+        --color-border-tertiary: rgba(230, 230, 227, 0.15);
+        --color-border-secondary: rgba(230, 230, 227, 0.3);
+        --color-border-primary: rgba(230, 230, 227, 0.4);
+        --color-background-info: #0c2a52;
+        --color-text-info: #85b7eb;
+      }
+    }
+    
+    body { 
+      font-family: var(--font-sans); 
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+    }
+    
+    .container { 
+      padding: 1.5rem; 
+      background: var(--color-background-primary); 
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .header { margin-bottom: 2rem; }
+    .header h1 { 
+      font-size: 24px; 
+      font-weight: 500; 
+      color: var(--color-text-primary); 
+      margin-bottom: 0.5rem; 
+    }
+    .header p { 
+      font-size: 14px; 
+      color: var(--color-text-secondary); 
+      line-height: 1.6; 
+      max-width: 700px;
+    }
+    
+    .filters { 
+      display: flex; 
+      gap: 8px; 
+      margin-bottom: 1.5rem; 
+      flex-wrap: wrap; 
+    }
+    
+    .filter-btn { 
+      padding: 8px 14px; 
+      border: 0.5px solid var(--color-border-tertiary); 
+      border-radius: var(--border-radius-md); 
+      background: transparent; 
+      font-size: 13px; 
+      cursor: pointer; 
+      transition: all 0.2s;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+    
+    .filter-btn:hover { 
+      border-color: var(--color-border-secondary); 
+      background: var(--color-background-secondary);
+    }
+    
+    .filter-btn.active { 
+      background: var(--color-background-info); 
+      border-color: var(--color-text-info);
+      color: var(--color-text-info);
+    }
+    
+    .search-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 10px 14px;
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-md);
+      font-size: 14px;
+      margin-bottom: 1.5rem;
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+    }
+
+    .search-box::placeholder {
+      color: var(--color-text-tertiary);
+    }
+    
+    .methods-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+      gap: 12px; 
+      margin-bottom: 2rem;
+    }
+    
+    .method-card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .method-card:hover {
+      border-color: var(--color-border-secondary);
+      box-shadow: 0 0 0 0.5px var(--color-border-secondary);
+    }
+    
+    .method-number {
+      font-size: 11px;
+      color: var(--color-text-tertiary);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    
+    .method-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.4;
+    }
+    
+    .method-category {
+      display: inline-block;
+      font-size: 12px;
+      background: var(--color-background-secondary);
+      color: var(--color-text-secondary);
+      padding: 4px 10px;
+      border-radius: var(--border-radius-md);
+      margin-bottom: 1rem;
+    }
+    
+    .method-meta {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: 0.4rem;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: var(--color-background-primary);
+      border-radius: var(--border-radius-lg);
+      border: 0.5px solid var(--color-border-tertiary);
+      padding: 2rem;
+      max-width: 550px;
+      max-height: 85vh;
+      overflow-y: auto;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      .modal-content {
+        box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      }
+    }
+    
+    .modal-close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      background: none;
+      border: none;
+      padding: 0;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.2s;
+    }
+    
+    .modal-close:hover {
+      color: var(--color-text-primary);
+    }
+    
+    .modal-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin: 0 0 1.5rem 0;
+      clear: both;
+    }
+    
+    .modal-section {
+      margin-bottom: 1.5rem;
+    }
+    
+    .modal-label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    
+    .modal-text {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--color-text-primary);
+    }
+    
+    .modal-list {
+      font-size: 14px;
+      color: var(--color-text-primary);
+      line-height: 1.8;
+      list-style: none;
+    }
+    
+    .modal-list li {
+      margin-left: 1.5rem;
+      margin-bottom: 0.75rem;
+      position: relative;
+    }
+    
+    .modal-list li:before {
+      content: "→";
+      position: absolute;
+      left: -1.25rem;
+      color: var(--color-text-secondary);
+    }
+    
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    
+    .stat-box {
+      background: var(--color-background-secondary);
+      padding: 1rem;
+      border-radius: var(--border-radius-md);
+      text-align: center;
+      border: 0.5px solid var(--color-border-tertiary);
+    }
+    
+    .stat-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+    
+    .stat-label {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-top: 0.5rem;
+    }
+    
+    .no-results {
+      grid-column: 1/-1; 
+      color: var(--color-text-secondary); 
+      text-align: center; 
+      padding: 3rem 2rem;
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+      
+      .header h1 {
+        font-size: 20px;
+      }
+      
+      .methods-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      }
+      
+      .modal-content {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>17 Teaching Methods Guide</h1>
+      <p>Explore different instructional approaches, from traditional lectures to modern collaborative learning. Click any card to see detailed steps, best practices, and timing.</p>
+    </div>
+    
+    <input type="text" id="searchBox" class="search-box" placeholder="Search by method name..." onkeyup="filterMethods()">
+    
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterByCategory('all')">All Methods</button>
+      <button class="filter-btn" onclick="filterByCategory('individual')">Individual</button>
+      <button class="filter-btn" onclick="filterByCategory('interactive')">Interactive</button>
+      <button class="filter-btn" onclick="filterByCategory('group')">Group-Based</button>
+      <button class="filter-btn" onclick="filterByCategory('practical')">Practical</button>
+    </div>
+    
+    <div class="methods-grid" id="grid"></div>
+    
+    <div class="modal" id="modal">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()">×</button>
+        <div id="modalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const methods = [
+      {
+        id: 1,
+        title: "Lecture Method",
+        subtitle: "Structured Teaching",
+        category: "individual",
+        time: "20-30 min",
+        steps: 7,
+        description: "Traditional teacher-centered approach with objectives, prior knowledge activation, chunked explanation, and periodic checks.",
+        best: "Large groups, foundational concepts",
+        steps_list: ["Set objective (2 min)", "Activate prior knowledge (3-5 min)", "Explain content (10-15 min chunks)", "Pause & check understanding", "Use visuals/examples", "Summarize (5 min)", "Quick assessment"],
+        tip: "Follow the 'chunk–pause–check' cycle"
+      },
+      {
+        id: 2,
+        title: "Demonstration Method",
+        subtitle: "Hands-on Learning",
+        category: "practical",
+        time: "30-45 min",
+        steps: 7,
+        description: "Teacher performs procedure while explaining, then students replicate with guidance.",
+        best: "Labs, technical subjects, skill development",
+        steps_list: ["Introduce concept", "State purpose", "Demonstrate slowly", "Think aloud", "Student observation", "Repeat with participation", "Follow-up activity"],
+        tip: "Explain reasoning while demonstrating"
+      },
+      {
+        id: 3,
+        title: "Questioning / Socratic Method",
+        subtitle: "Critical Thinking",
+        category: "interactive",
+        time: "20-30 min",
+        steps: 6,
+        description: "Guide students through questions that deepen understanding from recall to synthesis.",
+        best: "Philosophy, critical analysis, conceptual depth",
+        steps_list: ["Start with recall questions", "Move to why/how questions", "Encourage multiple answers", "Ask students to justify", "Build discussion", "Summarize learning"],
+        tip: "Use wait time (5-10 sec) before calling answers"
+      },
+      {
+        id: 4,
+        title: "Think–Pair–Share",
+        subtitle: "Collaborative Reflection",
+        category: "group",
+        time: "5 min",
+        steps: 5,
+        description: "Students think individually, discuss with a partner, then share with class.",
+        best: "Quick engagement, ensuring 100% participation",
+        steps_list: ["Pose a question/problem", "Think (1 min) individually", "Pair (2 min) with partner", "Share (2 min) to class", "Teacher summary"],
+        tip: "Ensures 100% participation"
+      },
+      {
+        id: 5,
+        title: "Group Discussion",
+        subtitle: "Collaborative Learning",
+        category: "group",
+        time: "20-30 min",
+        steps: 6,
+        description: "Small groups explore topics with assigned roles and present findings.",
+        best: "Complex topics, diverse perspectives",
+        steps_list: ["Divide into small groups (4-6)", "Assign topic/problem", "Define roles", "Give time limit (10-20 min)", "Groups present findings", "Teacher synthesizes ideas"],
+        tip: "Define clear roles for accountability"
+      },
+      {
+        id: 6,
+        title: "Brainstorming",
+        subtitle: "Creative Generation",
+        category: "interactive",
+        time: "15-25 min",
+        steps: 6,
+        description: "Generate rapid ideas with no criticism, then categorize and evaluate.",
+        best: "Innovation, problem exploration, creative thinking",
+        steps_list: ["Present open-ended question", "Set rule: no criticism", "Generate ideas rapidly", "Record all responses", "Categorize and evaluate", "Conclude with best solutions"],
+        tip: "No criticism phase - all ideas welcome"
+      },
+      {
+        id: 7,
+        title: "Problem-Solving Method",
+        subtitle: "Applied Learning",
+        category: "interactive",
+        time: "30-45 min",
+        steps: 6,
+        description: "Present real problems and guide students through solution development and analysis.",
+        best: "Engineering, STEM, practical applications",
+        steps_list: ["Present a real problem", "Clarify problem statement", "Students suggest solutions", "Analyze pros/cons", "Select best solution", "Reflect on process"],
+        tip: "Use authentic, relevant problems"
+      },
+      {
+        id: 8,
+        title: "Case Study Method",
+        subtitle: "Contextual Learning",
+        category: "interactive",
+        time: "40-60 min",
+        steps: 7,
+        description: "Analyze real-life scenarios individually and in groups to identify issues and solutions.",
+        best: "Business, law, medicine, complex scenarios",
+        steps_list: ["Provide case (real-life scenario)", "Students read individually", "Discuss in groups", "Identify key issues", "Suggest solutions", "Present and compare", "Connect with theory"],
+        tip: "Use authentic, recent cases"
+      },
+      {
+        id: 9,
+        title: "Project-Based Learning",
+        subtitle: "Extended Inquiry",
+        category: "group",
+        time: "Multiple sessions",
+        steps: 7,
+        description: "Students work on extended projects driven by essential questions, with teacher monitoring.",
+        best: "Integration, deep learning, real-world application",
+        steps_list: ["Define driving question/problem", "Form groups", "Plan project with timeline", "Research & create product", "Teacher monitors progress", "Final presentation/demo", "Evaluation + reflection"],
+        tip: "Balance autonomy with structure"
+      },
+      {
+        id: 10,
+        title: "Role Play",
+        subtitle: "Experiential Learning",
+        category: "interactive",
+        time: "25-40 min",
+        steps: 6,
+        description: "Students act out scenarios to experience situations and connect to learning objectives.",
+        best: "Language learning, social skills, historical events",
+        steps_list: ["Select scenario", "Assign roles", "Give preparation time", "Perform role play", "Discuss what happened", "Link to objectives"],
+        tip: "Debrief thoroughly after the activity"
+      },
+      {
+        id: 11,
+        title: "Flipped Classroom",
+        subtitle: "Inverted Sequence",
+        category: "individual",
+        time: "Varies",
+        steps: 6,
+        description: "Students study content at home, class time for discussion, practice, and clarification.",
+        best: "Complex content, self-paced learning, maximizing class time",
+        steps_list: ["Share pre-class material", "Give guiding questions", "Start with quick quiz", "Conduct activities", "Clarify doubts", "Assign practice work"],
+        tip: "Ensure home access to materials"
+      },
+      {
+        id: 12,
+        title: "Collaborative Learning",
+        subtitle: "Interdependent Work",
+        category: "group",
+        time: "30-60 min",
+        steps: 6,
+        description: "Small groups work on common tasks where each member's contribution is essential.",
+        best: "Building teamwork, diverse learning styles",
+        steps_list: ["Create small groups", "Assign common task", "Ensure interdependence", "Monitor group work", "Group presentation", "Peer + teacher evaluation"],
+        tip: "Structure tasks so all must contribute"
+      },
+      {
+        id: 13,
+        title: "Simulation",
+        subtitle: "Virtual Experience",
+        category: "interactive",
+        time: "45-90 min",
+        steps: 6,
+        description: "Create realistic scenarios where students make decisions and observe consequences.",
+        best: "Complex systems, decision-making, safety-critical skills",
+        steps_list: ["Design real-world scenario", "Assign roles/rules", "Run simulation", "Observe decisions", "Debrief (critical step)", "Connect to theory"],
+        tip: "Debriefing is the most important step"
+      },
+      {
+        id: 14,
+        title: "Laboratory Method",
+        subtitle: "Hands-on Experimentation",
+        category: "practical",
+        time: "45-90 min",
+        steps: 6,
+        description: "Students perform experiments, record observations, and analyze results.",
+        best: "Science, chemistry, biology, physics",
+        steps_list: ["Explain objective & procedure", "Demonstrate if needed", "Students perform", "Record observations", "Analyze results", "Write conclusion"],
+        tip: "Safety protocols are essential"
+      },
+      {
+        id: 15,
+        title: "Jigsaw Method",
+        subtitle: "Expert Group Learning",
+        category: "group",
+        time: "45-60 min",
+        steps: 6,
+        description: "Divide topic into parts, form expert groups, then return to teach peers.",
+        best: "Large topics, peer teaching, comprehensive coverage",
+        steps_list: ["Divide topic into parts", "Form home groups", "Assign subtopics", "Form expert groups", "Return and teach peers", "Assess understanding"],
+        tip: "Ensures all parts are covered and taught"
+      },
+      {
+        id: 16,
+        title: "Gamification",
+        subtitle: "Game-Based Learning",
+        category: "interactive",
+        time: "20-45 min",
+        steps: 6,
+        description: "Incorporate game elements like points, levels, and leaderboards into learning.",
+        best: "Engagement, motivation, practice, competition",
+        steps_list: ["Define learning objective", "Create game elements", "Design quizzes/challenges", "Track progress", "Reward achievements", "Reflect on learning"],
+        tip: "Balance competition with collaboration"
+      },
+      {
+        id: 17,
+        title: "Field Visit",
+        subtitle: "Experiential Exploration",
+        category: "practical",
+        time: "Full session",
+        steps: 6,
+        description: "Students visit locations with observation tasks and post-visit analysis.",
+        best: "Geography, history, environmental science, real-world context",
+        steps_list: ["Plan visit with objectives", "Give observation tasks", "Conduct visit", "Record findings", "Post-visit discussion", "Submit report"],
+        tip: "Prepare students with guiding questions"
+      }
+    ];
+
+    let currentFilter = 'all';
+    let searchTerm = '';
+
+    function renderMethods() {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      
+      methods.forEach(method => {
+        const categoryMatch = currentFilter === 'all' || method.category === currentFilter;
+        const searchMatch = method.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                           method.subtitle.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        if (categoryMatch && searchMatch) {
+          const card = document.createElement('div');
+          card.className = 'method-card';
+          card.onclick = () => openModal(method);
+          
+          card.innerHTML = `
+            <div class="method-number">Method ${method.id}</div>
+            <div class="method-title">${method.title}</div>
+            <div class="method-category">${method.subtitle}</div>
+            <div class="method-meta">⏱ ${method.time}</div>
+            <div class="method-meta">${method.steps} steps</div>
+          `;
+          grid.appendChild(card);
+        }
+      });
+      
+      if (grid.children.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.innerHTML = 'No methods found matching your search.';
+        grid.appendChild(noResults);
+      }
+    }
+
+    function filterByCategory(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderMethods();
+    }
+
+    function filterMethods() {
+      searchTerm = document.getElementById('searchBox').value;
+      renderMethods();
+    }
+
+    function openModal(method) {
+      const modal = document.getElementById('modal');
+      const body = document.getElementById('modalBody');
+      
+      body.innerHTML = `
+        <h2 class="modal-title">${method.title}</h2>
+        
+        <div class="modal-section">
+          <div class="modal-label">Approach</div>
+          <div class="modal-text">${method.subtitle}</div>
+        </div>
+        
+        <div class="modal-section">
+          <div class="modal-label">Duration & Structure</div>
+          <div class="comparison-grid">
+            <div class="stat-box">
+              <div class="stat-value">${method.time}</div>
+              <div class="stat-label">Typical time</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-value">${method.steps}</div>
+              <div class="stat-label">Steps</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-section">
+          <div class="modal-label">Best for</div>
+          <div class="modal-text">${method.best}</div>
+        </div>
+        
+        <div class="modal-section">
+          <div class="modal-label">Steps</div>
+          <ul class="modal-list">
+            ${method.steps_list.map(step => `<li>${step}</li>`).join('')}
+          </ul>
+        </div>
+        
+        <div class="modal-section">
+          <div class="modal-label">Key Tip</div>
+          <div class="modal-text">${method.tip}</div>
+        </div>
+      `;
+      
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+    }
+
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    // Initialize
+    renderMethods();
+  </script>
+</body>
+</html>
